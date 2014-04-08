@@ -50,7 +50,7 @@ public class HelloController {
           Object nativeCache = cache.getNativeCache();
           if (nativeCache instanceof net.sf.ehcache.Ehcache) {
             net.sf.ehcache.Ehcache ehCache = (net.sf.ehcache.Ehcache) nativeCache;
-            totalSize += ((Ehcache) ehCache.getStatistics()).getSize();
+            totalSize += ehCache.getSize();
           }
         }
         return totalSize;

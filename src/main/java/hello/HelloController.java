@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 //@Import(CachingConfig.class)
 public class HelloController {
-	private Cache cache;
-	
-	
 	@Autowired
     Speaker speaker;
  	

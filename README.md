@@ -1,5 +1,5 @@
-Springboot Hello World Example
+Springboot EHCache Jgroups TCP Replication
 ==============================
 Overview
 --------
-A simple hello world application with Maven integration to get people moving with Springboot and tradditional war file deployment rather than the executable JAR files which litter the T'Interwebs.
+This is a sample project which demonstrates TCP replication of EHCache across multiple nodes tied together by using springboot and spring version 4.

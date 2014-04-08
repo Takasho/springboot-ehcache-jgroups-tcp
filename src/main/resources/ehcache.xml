@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+    updateCheck="false">
+    
+    <cacheManagerPeerProviderFactory
+class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"
+properties="connect=TCP(bind_addr=127.0.0.1;bind_port=7801):
+TCPPING(initial_hosts=127.0.0.1[7800],127.0.0.1[7801];port_range=1;timeout=3000;num_initial_members=2):
+VERIFY_SUSPECT(timeout=1500):
+pbcast.NAKACK(use_mcast_xmit=false;retransmit_timeout=300,600,1200,2400,4800;discard_delivered_msgs=true):
+pbcast.STABLE()stability_delay=1000;desired_avg_gossip=50000;max_bytes=400000):
+pbcast.GMS(join_timeout=5000;print_local_addr=true;view_bundling=true)"
+propertySeparator="::" />
+   
+    <cache name="greetingCache" eternal="true" maxElementsInMemory="100"
+        overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+        memoryStoreEvictionPolicy="LRU">       
+
+      <cacheEventListenerFactory
+            class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+            properties="replicateAsynchronously=true, replicatePuts=true,
+            replicateUpdates=true, replicateUpdatesViaCopy=false,
+            replicateRemovals=true" />   
+       
+      <bootstrapCacheLoaderFactory
+            class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
+            properties="bootstrapAsynchronously=false" />  
+    </cache>
+
+</ehcache>

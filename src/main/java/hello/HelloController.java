@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 	private Cache cache;
 	
-	
-	//@Autowired
-    //ApplicationContext context;
- 
+	/*
+	@Autowired
+    Speaker speaker;
+ 	*/
     @Autowired
     CacheManager cacheManager;
 

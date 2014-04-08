@@ -3,8 +3,6 @@ package hello;
 
 import java.util.Collection;
 
-import net.sf.ehcache.Ehcache;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -31,7 +29,7 @@ public class HelloController {
     public Collection<String> cacheList(){
     	return cacheManager.getCacheNames();
     }
-    @RequestMapping(value = "/cache-clear", method=RequestMethod.GET)
+    @RequestMapping(value = "/cache-clear/{message}", method=RequestMethod.GET)
     public String cachePut(@PathVariable String message){
     	speaker.SayHelloClear(message);
     	return "Removed: "+ message;

@@ -3,6 +3,8 @@ package hello;
 
 import java.util.Collection;
 
+import net.sf.ehcache.Ehcache;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -16,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 	private Cache cache;
 	
-	/*
+	
 	@Autowired
     Speaker speaker;
- 	*/
+ 	
     @Autowired
     CacheManager cacheManager;
 
@@ -32,17 +34,15 @@ public class HelloController {
     public Collection<String> cacheList(){
     	return cacheManager.getCacheNames();
     }
-    @RequestMapping(value = "/cache-put/{message}", method=RequestMethod.GET)
+    @RequestMapping(value = "/cache-clear", method=RequestMethod.GET)
     public String cachePut(@PathVariable String message){
-    	cache = cacheManager.getCache("greetingCache");
-    	cache.put(message, message);
-    	return "Added to cache: " + message;
+    	speaker.SayHelloClear(message);
+    	return "Removed: "+ message;
     }
     
-    @RequestMapping(value = "/cache-get/{message}", method=RequestMethod.GET)
+    @RequestMapping(value = "/cache/{message}", method=RequestMethod.GET)
     public String cacheGet(@PathVariable String message){
-    	cache = cacheManager.getCache("greetingCache");
-    	return (String) cache.get(message).get();
+    	return speaker.SayHello(message);
     }
     
     @RequestMapping(value = "/cache-size", method=RequestMethod.GET)
@@ -53,7 +53,7 @@ public class HelloController {
           Object nativeCache = cache.getNativeCache();
           if (nativeCache instanceof net.sf.ehcache.Ehcache) {
             net.sf.ehcache.Ehcache ehCache = (net.sf.ehcache.Ehcache) nativeCache;
-            totalSize += ehCache.getStatistics().getSize();
+            totalSize += ((Ehcache) ehCache.getStatistics()).getSize();
           }
         }
         return totalSize;

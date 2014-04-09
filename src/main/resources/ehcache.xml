@@ -5,12 +5,15 @@
     
     <cacheManagerPeerProviderFactory
 class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"
-properties="connect=TCP(bind_addr=127.0.0.1;bind_port=7801):
-TCPPING(initial_hosts=127.0.0.1[7800],127.0.0.1[7801];port_range=1;timeout=3000;num_initial_members=2):
+properties="connect=TCP(bind_addr=127.0.0.1;bind_port=7800):
+TCPPING(initial_hosts=127.0.0.1[7800],127.0.0.1[7801];port_range=10;timeout=3000;num_initial_members=2):
 VERIFY_SUSPECT(timeout=1500):
-pbcast.NAKACK(use_mcast_xmit=false;retransmit_timeout=300,600,1200,2400,4800;discard_delivered_msgs=true):
-pbcast.STABLE()stability_delay=1000;desired_avg_gossip=50000;max_bytes=400000):
-pbcast.GMS(join_timeout=5000;print_local_addr=true;view_bundling=true)"
+UNICAST2:
+MERGE3(min_interval=10000;max_interval=30000):
+pbcast.NAKACK2(use_mcast_xmit=false;use_mcast_xmit_req=false;discard_delivered_msgs=false):
+pbcast.STABLE(stability_delay=1000;desired_avg_gossip=50000;max_bytes=400000):
+pbcast.GMS(join_timeout=3000;print_local_addr=true;view_bundling=true,join_retry_timeout=2000):
+pbcast.STATE_TRANSFER()"
 propertySeparator="::" />
    
     <cache name="greetingCache" eternal="true" maxElementsInMemory="100"
@@ -25,7 +28,7 @@ propertySeparator="::" />
        
       <bootstrapCacheLoaderFactory
             class="net.sf.ehcache.distribution.jgroups.JGroupsBootstrapCacheLoaderFactory"
-            properties="bootstrapAsynchronously=false" />  
+            properties="bootstrapAsynchronously=false, maximumChunkSizeBytes=5000000" />  
     </cache>
 
 </ehcache>
